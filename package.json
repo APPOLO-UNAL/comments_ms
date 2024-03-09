@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/index.ts"
+    "start": "nodemon ./src/index.ts",
+    "lint":"ts-standard"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +18,9 @@
     "handlebars": "^4.7.8",
     "nodemon": "^3.1.0",
     "npm-check-updates": "^16.14.15",
+    "ts-standard": "^12.0.2",
     "typescript": "^5.4.2"
+    
   },
   "dependencies": {
     "dotenv": "^16.4.5",
