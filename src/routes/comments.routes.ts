@@ -21,7 +21,7 @@ router.get('/comments', getCommentHandler)
 
 //Get all Item comments 
 
-router.get('/:idItem/comments',getCommentByItemIdHandler)
+router.get('/:idItemMusic/comments',getCommentByItemIdHandler)
 // Create  comment 
 router.post('/comments/', postCommentHandler)
 
