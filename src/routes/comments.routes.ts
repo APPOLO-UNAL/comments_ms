@@ -6,12 +6,12 @@ const router = express.Router()
 
 import  {
   getAllCommentsHandler,
-  getCommentByItemIdHandler,
+  getCommentsByItemIdHandler,
   postCommentHandler,
   replyCommentHandler,
   deleteCommentHandler,
   editCommentHandler,
-  getCommentByUserIdHandler,
+  getCommentsByUserIdHandler,
   getCommentByCommentIdHandler
 } from '../controllers/comments.controller'
 
@@ -21,11 +21,9 @@ import  {
 
 router.get('/comments/', getAllCommentsHandler)
 
-//Get all Item comments 
+router.get('/item/:idItemMusic/comments',getCommentsByItemIdHandler) //By ItemMusicID
 
-router.get('/item/:idItemMusic/comments',getCommentByItemIdHandler) //By ItemMusicID
-
-router.get('/user/:userId/comments',getCommentByUserIdHandler) //By  UserId
+router.get('/user/:userId/comments',getCommentsByUserIdHandler) //By  UserId
 
 router.get('/comments/:_id',getCommentByCommentIdHandler) //By  CommentId
 
@@ -34,14 +32,21 @@ router.post('/comments/', postCommentHandler)
 
 // Edit Comment/Reply
 
-router.put(`/comments/:_id`,editCommentHandler) 
+router.patch(`/comments/:_id`,editCommentHandler) 
 
 // Delete comment/Reply (and his sons)
 router.delete('/comments/:_id/',deleteCommentHandler)
 // Create reply 
-router.post('/comments/:_id/', replyCommentHandler)
+router.post('/comments/:parentId/', replyCommentHandler)
 
 
 
 // Exportation
 module.exports = router
+
+//Likes/dislikes (get y put de la misma ruta)
+/*
+router.get('/comments/:_id/likes/')
+router.get('/comments/:_id/dislikes/')
+
+*/
