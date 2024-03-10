@@ -1,33 +1,46 @@
 
-import  {Schema,model,Document,Date } from 'mongoose';
+import  {Schema,model,Document,Date,Types } from 'mongoose';
 // const mongoose=require('mongoose');
-import {CommentDocument} from '../types/types'
+import {CommentDocument} from './types'
 
-const commentSchema=new Schema({
-    _id :Schema.Types.ObjectId,
+var commentSchema=new Schema({
     userId:{
         type:String,
          required:true}, //Who make the comment
     content:{
         type:String,
         required:true}, //Comment content
-    parentComment:{
+    parentId:{
         type:String,
-        required:false}, //Comment that is being responded 
-    idItemMusic:{
+        validate:{
+            validator:validateIdParent,
+            message:"The parent comment does not exist, please try again"
+        }
+    }, 
+    itemMusicId:{
         type:String,
         required: true},     //Album/Artist/Track Id that is being reviewed
     likes:{
         type: Array
     },
-    dislikes:Array<String>
+    dislikes:{
+        type:Array,
+    }
 },{ 
     timestamps: true , //Date
     collection: 'comments'
 }
 );
+//commentSchema.index({userId:1,itemMusicId:1},{unique:true})
+commentSchema.index({ idUser: 1, idItem: 1, parentId: 1 }, { unique: true, partialFilterExpression: { parentId: { $eq: null } } }); //Index just for main Comment
 
-
+async function validateIdParent (value: any) {
+    if(!Types.ObjectId.isValid(value)){
+        return false
+    }
+    const comment:any = await CommentModel.findById(value);
+        return comment !== null;
+}
 //Exportation
 
 const CommentModel = model<CommentDocument>('Comment',commentSchema)
