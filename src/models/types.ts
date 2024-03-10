@@ -2,8 +2,8 @@ export interface CommentInput{
 
     userId:String,
     content:String,
-    parentComment:String,
-    idItemMusic:String,
+    parentId:String,
+    itemMusicId:String,
     likes:Array<String>,
     dislikes:Array<String>
 }
