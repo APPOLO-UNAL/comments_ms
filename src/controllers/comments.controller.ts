@@ -1,15 +1,14 @@
 import { Request, Response } from "express"
 import {
     deleteComment,
-    editComment,
+    updateDB,
     findCommentById,
     findCommentsBy,
     postComment,
-    setReactions
 } from '../services/commentServices'
 const commentController:any = {}
 
-
+import {MongoServerError} from 'mongodb'
 // Get endpoints
 
 export async function getAllCommentsHandler(req : Request,res:Response):Promise<any>  {
@@ -74,10 +73,13 @@ export async function postCommentHandler(req:Request,res:Response):Promise<any> 
         const body=req.body
         const commentCreated= await postComment(body)
         res.send(commentCreated)
-    }
-    catch(error){
-        console.log(error)
-        res.status(400).send(error)
+    }catch(error:any){
+        if(error?.code === 11000){
+            res.status(400).send({message:'Duplicate key error'})
+        }else{
+            res.status(400).send(error.message ? {message:error.message}: error)
+        }
+        
     }
 }
 
@@ -86,14 +88,15 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
         const parentId=req.params.parentId
         const comment=await findCommentById({"_id":parentId}) //Cast 
         if(!comment){
-            res.sendStatus(400)
+            res.status(400).send({message:`The idparent doesnt exist in database`})  
+        }else{
+            const body=req.body
+            body.parentId=parentId
+            const commentCreated= await postComment(body)
+            res.send(commentCreated)
         }
-       const body=req.body
-        body.parentId=parentId
-        const commentCreated= await postComment(body)
-        res.send(commentCreated)
-    }catch(error){
-        res.status(400).send(error)
+    }catch(error:any){
+        res.status(400).send(error.message ? {message:error.message}: error)
     }
     
 
@@ -119,10 +122,10 @@ export async function reactCommentAuxFunction(req:Request,res:Response,reaction:
     const {userIdLike,unReact}=req.body
     let commentUpdated:any
     if((unReact as Boolean)){
-        commentUpdated=await setReactions({_id}, {$pull:{[reaction]:userIdLike}}) //unlike
+        commentUpdated=await updateDB({_id}, {$pull:{[reaction]:userIdLike}}) // un react
     }else{
         const opositeReaction=getOppositeReaction(reaction)
-        commentUpdated=await setReactions({_id}, {$addToSet:{[reaction]:userIdLike},$pull:{[opositeReaction]:userIdLike}}) //give like
+        commentUpdated=await updateDB({_id}, {$addToSet:{[reaction]:userIdLike},$pull:{[opositeReaction]:userIdLike}}) // react
     }
     res.send(commentUpdated)
     
@@ -134,7 +137,7 @@ export async function editCommentHandler(req:Request,res:Response):Promise<any> 
     try{
         const {_id}=req.params
         const {content}=req.body
-        const comment= await editComment({_id},{content},{new:true})
+        const comment= await updateDB({_id},{content})
         res.send(comment)
     }catch(error){
         res.status(400).send(error)
