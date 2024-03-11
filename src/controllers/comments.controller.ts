@@ -7,6 +7,9 @@ import {
 } from '../services/commentServices'
 const commentController:any = {}
 
+
+// Get endpoints
+
 export async function getAllCommentsHandler(req : Request,res:Response):Promise<any>  {
     const comments=await findCommentsBy({})
     res.send(comments)
@@ -42,10 +45,27 @@ export async function getReplies(req : Request,res:Response):Promise<any> {
         res.status(400).send(error)
     }
 }
+//      likes and dislikes 
+export async function getCommentLikes(req : Request,res:Response):Promise<any> {
+    try{
+        const {_id}=req.params
+        const comment= await findCommentById({_id})
+        res.send({"_id":_id,"likes":comment?.likes})
+    }catch(error){
+        res.status(400).send(error)
+    }
+}
+export async function getCommentDislikes(req : Request,res:Response):Promise<any> {
+    try{
+        const {_id}=req.params
+        const comment= await findCommentById({_id})
+        res.send({"_id":_id,"dislikes":comment?.dislikes})
+    }catch(error){
+        res.status(400).send(error)
+    }
+}
 
-
-
-//Post
+// Post enpoints
 
 export async function postCommentHandler(req:Request,res:Response):Promise<any>  {
     try{
@@ -76,6 +96,9 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
     
 
 }
+// Likes and Dislikes
+
+
 
 //Patch
 

@@ -13,7 +13,9 @@ import  {
   editCommentHandler,
   getCommentsByUserIdHandler,
   getCommentByCommentIdHandler,
-  getReplies
+  getReplies,
+  getCommentLikes,
+  getCommentDislikes
 } from '../controllers/comments.controller'
 
 // Endpoint routes
@@ -29,6 +31,10 @@ router.get('/user/:userId/comments/',getCommentsByUserIdHandler) //By  UserId
 router.get('/comments/:_id/',getCommentByCommentIdHandler) //By  CommentId
 
 router.get('/comments/:_id/replies/',getReplies)
+
+router.get('/comments/:_id/likes/', getCommentLikes)
+router.get('/comments/:_id/dislikes/',getCommentDislikes)
+
 // Create  comment 
 router.post('/comments/', postCommentHandler)
 
@@ -48,7 +54,6 @@ module.exports = router
 
 //Likes/dislikes (get y put de la misma ruta)
 /*
-router.get('/comments/:_id/likes/')
-router.get('/comments/:_id/dislikes/')
+
 
 */
