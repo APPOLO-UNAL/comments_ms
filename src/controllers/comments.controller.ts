@@ -9,6 +9,7 @@ import {
 const commentController:any = {}
 
 import {MongoServerError} from 'mongodb'
+import { CommentDocument } from "../models/types"
 // Get endpoints
 
 export async function getAllCommentsHandler(req : Request,res:Response):Promise<any>  {
@@ -33,8 +34,8 @@ export async function getCommentByCommentIdHandler(req : Request,res:Response):P
         const {_id}=req.params
         const comment= await findCommentById({_id})
         res.send(comment)
-    }catch(error){
-        res.status(400).send(error)
+    }catch(error:any){
+        res.status(400).send(error.message ? {message:error.message}: error)
     }
 }
 export async function getReplies(req : Request,res:Response):Promise<any> {
@@ -90,10 +91,15 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
         if(!comment){
             res.status(400).send({message:`The idparent doesnt exist in database`})  
         }else{
-            const body=req.body
-            body.parentId=parentId
-            const commentCreated= await postComment(body)
-            res.send(commentCreated)
+            if(!comment.parentId){
+                const body=req.body
+                body.parentId=parentId
+                const commentCreated= await postComment(body)
+                res.send(commentCreated)
+            }else{
+                throw new Error("You cant reply to a reply")
+            }
+            
         }
     }catch(error:any){
         res.status(400).send(error.message ? {message:error.message}: error)
