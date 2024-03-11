@@ -36,3 +36,7 @@ postman_collection.json
 .prettierrc
 .vscode/
 .env
+
+#test docs or something like that
+postmanQuerys.ts
+querys.txt
