@@ -21,10 +21,9 @@ export async function postComment (    input: CommentInput){
     return CommentModel.create(input)
 }
 
-export async function editComment ( 
+export async function updateDB ( 
     query: FilterQuery<CommentDocument>,
     update:UpdateQuery<CommentDocument>,
-    options: QueryOptions
 ){
     //input.parentId=""; //
     
@@ -33,11 +32,6 @@ export async function editComment (
 
 export async function deleteComment( query: FilterQuery<CommentDocument>){
     return CommentModel.deleteOne(query)
-}
-export async function setReactions(query: FilterQuery<CommentDocument>,
-    update:UpdateQuery<CommentDocument>
-    ){
-    return CommentModel.findOneAndUpdate(query,update,{new:true})
 }
 
 
