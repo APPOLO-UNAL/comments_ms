@@ -56,11 +56,6 @@ commentSchema.pre('deleteOne',async function(next){
     }
     next()
  })
- commentSchema.pre('find',{query:true},async function(next){
-    console.log("{")
-    console.log(`Findind ${this}`)
-    console.log("}")
- })
 
 
 
