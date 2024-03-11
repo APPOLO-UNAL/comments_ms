@@ -22,7 +22,7 @@ import  {
 
 router.get('/comments/', getAllCommentsHandler) //Get all coments
 
-router.get('/item/:idItemMusic/comments/',getCommentsByItemIdHandler) //By ItemMusicID
+router.get('/item/:itemMusicId/comments/',getCommentsByItemIdHandler) //By ItemMusicID
 
 router.get('/user/:userId/comments/',getCommentsByUserIdHandler) //By  UserId
 

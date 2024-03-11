@@ -14,8 +14,8 @@ export async function getAllCommentsHandler(req : Request,res:Response):Promise<
 
 export async function getCommentsByItemIdHandler(req : Request,res:Response):Promise<any> {
     
-    const {idItemMusic} =req.params;
-    const comments =await findCommentsBy({idItemMusic})
+    const {itemMusicId} =req.params;
+    const comments =await findCommentsBy({itemMusicId})
     res.send(comments)
 }
 export async function getCommentsByUserIdHandler(req : Request,res:Response):Promise<any> {
