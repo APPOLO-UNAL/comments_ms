@@ -31,17 +31,32 @@ var commentSchema=new Schema({
     collection: 'comments'
 }
 );
-//commentSchema.index({userId:1,itemMusicId:1},{unique:true})
-commentSchema.index({ idUser: 1, idItem: 1, parentId: 1 }, { unique: true, partialFilterExpression: { parentId: { $eq: null } } }); //Index just for main Comment
+//Indexes
+commentSchema.index(
+    { idUser: 1, idItem: 1, parentId: 1 },  //Restriction
+    { unique: true, partialFilterExpression: { parentId: { $eq: null } } //Cond to restrict
+}); //Index just for main Comment
 
-async function validateIdParent (value: any) {
+//functions
+
+async function validateIdParent (value: any) { //Unique comment validation function
     if(!Types.ObjectId.isValid(value)){
         return false
     }
     const comment:any = await CommentModel.findById(value);
         return comment !== null;
 }
+//Hooks
+
+
+commentSchema.pre('find',{query:false},async function(next){
+    
+    
+})
+
+
 //Exportation
 
 const CommentModel = model<CommentDocument>('Comment',commentSchema)
+
 export  default CommentModel
