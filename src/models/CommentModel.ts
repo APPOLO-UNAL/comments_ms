@@ -48,11 +48,20 @@ async function validateIdParent (value: any) { //Unique comment validation funct
 }
 //Hooks
 
+commentSchema.pre('deleteOne',async function(next){
+    const _id=await this.clone().getQuery()._id
+    const comments= await CommentModel.find({parentId:_id},{},{lean:true}) 
+    for(const comment of comments){
+        await CommentModel.deleteOne({_id:comment._id})
+    }
+    next()
+ })
+ commentSchema.pre('find',{query:true},async function(next){
+    console.log("{")
+    console.log(`Findind ${this}`)
+    console.log("}")
+ })
 
-commentSchema.pre('find',{query:false},async function(next){
-    
-    
-})
 
 
 //Exportation
