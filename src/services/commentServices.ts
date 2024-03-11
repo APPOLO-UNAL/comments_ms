@@ -28,12 +28,16 @@ export async function editComment (
 ){
     //input.parentId=""; //
     
-    return CommentModel.findOneAndUpdate(query,update,options)
+    return CommentModel.findOneAndUpdate(query,update,{new:true})
 }
 
 export async function deleteComment( query: FilterQuery<CommentDocument>){
     return CommentModel.deleteOne(query)
 }
-
+export async function setReactions(query: FilterQuery<CommentDocument>,
+    update:UpdateQuery<CommentDocument>
+    ){
+    return CommentModel.findOneAndUpdate(query,update,{new:true})
+}
 
 

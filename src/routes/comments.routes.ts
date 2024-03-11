@@ -15,7 +15,10 @@ import  {
   getCommentByCommentIdHandler,
   getReplies,
   getCommentLikes,
-  getCommentDislikes
+  getCommentDislikes,
+  giveLikeHandler,
+  giveDislikeHandler,
+
 } from '../controllers/comments.controller'
 
 // Endpoint routes
@@ -41,6 +44,9 @@ router.post('/comments/', postCommentHandler)
 // Edit Comment/Reply
 
 router.patch(`/comments/:_id`,editCommentHandler) 
+
+router.patch('/comments/:_id/likes/', giveLikeHandler)
+router.patch('/comments/:_id/dislikes/',giveDislikeHandler)
 
 // Delete comment/Reply (and his sons)
 router.delete('/comments/:_id/',deleteCommentHandler)

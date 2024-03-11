@@ -3,7 +3,9 @@ import {
     deleteComment,
     editComment,
     findCommentById,
-    findCommentsBy,postComment
+    findCommentsBy,
+    postComment,
+    setReactions
 } from '../services/commentServices'
 const commentController:any = {}
 
@@ -97,8 +99,34 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
 
 }
 // Likes and Dislikes
-
-
+export async function giveLikeHandler(req:Request,res:Response):Promise<any>  {
+    try{
+        reactCommentAuxFunction(req,res,'likes')
+    }catch(error){
+        res.status(400).send(error)
+    }
+}
+export async function giveDislikeHandler(req:Request,res:Response):Promise<any>  {
+    try{
+        reactCommentAuxFunction(req,res,'dislikes')
+    }catch(error){
+        res.status(400).send(error)
+    }
+}
+export async function reactCommentAuxFunction(req:Request,res:Response,reaction:string):Promise<any>  {
+   
+    const {_id}=req.params
+    const {userIdLike,unReact}=req.body
+    let commentUpdated:any
+    if((unReact as Boolean)){
+        commentUpdated=await setReactions({_id}, {$pull:{[reaction]:userIdLike}}) //unlike
+    }else{
+        const opositeReaction=getOppositeReaction(reaction)
+        commentUpdated=await setReactions({_id}, {$addToSet:{[reaction]:userIdLike},$pull:{[opositeReaction]:userIdLike}}) //give like
+    }
+    res.send(commentUpdated)
+    
+}
 
 //Patch
 
@@ -122,3 +150,12 @@ export async function deleteCommentHandler(req:Request,res:Response):Promise<any
     res.send(resp)
 } //Falta cascada
 
+function getOppositeReaction(reaction: string): string {
+    if (reaction === "likes") {
+      return "dislikes";
+    } else if (reaction === "dislikes") {
+      return "likes";
+    } else {
+      throw new Error('Invalid string');
+    }
+  }
