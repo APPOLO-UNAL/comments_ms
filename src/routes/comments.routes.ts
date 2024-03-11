@@ -12,21 +12,23 @@ import  {
   deleteCommentHandler,
   editCommentHandler,
   getCommentsByUserIdHandler,
-  getCommentByCommentIdHandler
+  getCommentByCommentIdHandler,
+  getReplies
 } from '../controllers/comments.controller'
 
 // Endpoint routes
 
-// Get all method (get all)
+// Get endpoints
 
-router.get('/comments/', getAllCommentsHandler)
+router.get('/comments/', getAllCommentsHandler) //Get all coments
 
-router.get('/item/:idItemMusic/comments',getCommentsByItemIdHandler) //By ItemMusicID
+router.get('/item/:idItemMusic/comments/',getCommentsByItemIdHandler) //By ItemMusicID
 
-router.get('/user/:userId/comments',getCommentsByUserIdHandler) //By  UserId
+router.get('/user/:userId/comments/',getCommentsByUserIdHandler) //By  UserId
 
-router.get('/comments/:_id',getCommentByCommentIdHandler) //By  CommentId
+router.get('/comments/:_id/',getCommentByCommentIdHandler) //By  CommentId
 
+router.get('/comments/:_id/replies/',getReplies)
 // Create  comment 
 router.post('/comments/', postCommentHandler)
 
