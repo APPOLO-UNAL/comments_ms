@@ -7,8 +7,9 @@
 
     "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/index.ts",
-    "lint":"ts-standard"
+    "start": "node ./build/index.js",
+    "lint":"ts-standard",
+    "build":"tsc "
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,7 @@
 import express from 'express';
 
 //Global Variables
-const PORT=3000;
+const PORT=8080;
 //Initializations
 const app=express();
 const APIURI='/api/v1/'
