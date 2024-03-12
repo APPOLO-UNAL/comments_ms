@@ -15,7 +15,7 @@ var commentSchema=new Schema({
         validate:{
             validator:validateIdParent,
             message:"The parent comment does not exist, please try again"
-        }
+        }, default: null
     }, 
     itemMusicId:{
         type:String,
@@ -30,16 +30,20 @@ var commentSchema=new Schema({
     timestamps: true , //Date
     collection: 'comments'
 }
-);
+)
+
+// commentSchema.index(
+//     { idUser: 1, idItem: 1,parentId: 1}, 
+//     { unique: true, partialFilterExpression: { parentId: { $eq: null } } 
+// }); 
 //Indexes
-commentSchema.index(
-    { idUser: 1, idItem: 1, parentId: 1 },  //Restriction
-    { unique: true, partialFilterExpression: { parentId: { $eq: null } } //Cond to restrict
-}); //Index just for main Comment
 
 //functions
 
 async function validateIdParent (value: any) { //Unique comment validation function
+    if(!value){
+        return true
+    }
     if(!Types.ObjectId.isValid(value)){
         return false
     }
