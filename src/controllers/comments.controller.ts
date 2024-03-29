@@ -40,7 +40,7 @@ export async function getCommentByCommentIdHandler(req : Request,res:Response):P
 }
 export async function getReplies(req : Request,res:Response):Promise<any> {
     try{
-        const _id=req.params._id
+        const {_id}=req.params
         const replies= await findCommentsBy({"parentId":_id})
         res.send(replies)
     }catch(error){
