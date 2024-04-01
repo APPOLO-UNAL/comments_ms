@@ -18,6 +18,7 @@ import  {
   getCommentDislikes,
   giveLikeHandler,
   giveDislikeHandler,
+  deleteCommentByUserHandler
 
 } from '../controllers/comments.controller'
 
@@ -50,6 +51,8 @@ router.patch('/comments/:_id/dislikes/',giveDislikeHandler)
 
 // Delete comment/Reply (and his sons)
 router.delete('/comments/:_id/',deleteCommentHandler)
+//Delete by userID
+router.delete('/user/:userId/comments/',deleteCommentByUserHandler)
 // Create reply 
 router.post('/comments/:parentId/', replyCommentHandler)
 

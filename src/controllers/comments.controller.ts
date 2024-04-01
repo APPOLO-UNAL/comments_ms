@@ -152,13 +152,21 @@ export async function editCommentHandler(req:Request,res:Response):Promise<any> 
 
 //Delete
 export async function deleteCommentHandler(req:Request,res:Response):Promise<any>  {
-    //res.send(`Deleting  ${req.params.idComment}`)
     const {_id}=req.params
     const resp= await deleteComment({_id})
     
     res.send(resp)
-} //Falta cascada
-
+} 
+export async function deleteCommentByUserHandler(req:Request,res:Response):Promise<any>  {
+    const {userId}=req.params
+    const comments= await findCommentsBy({userId})
+    let resp
+    for(const comment of comments){
+        console.log(comment)
+        resp=await await deleteComment({_id:comment._id})
+    }
+    res.send(resp)
+} 
 function getOppositeReaction(reaction: string): string {
     if (reaction === "likes") {
       return "dislikes";
