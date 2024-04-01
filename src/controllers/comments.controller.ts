@@ -162,7 +162,6 @@ export async function deleteCommentByUserHandler(req:Request,res:Response):Promi
     const comments= await findCommentsBy({userId})
     let resp
     for(const comment of comments){
-        console.log(comment)
         resp=await await deleteComment({_id:comment._id})
     }
     res.send(resp)
