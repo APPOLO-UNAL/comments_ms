@@ -9,7 +9,7 @@ interface Message {
     id_user: string;
   }
 
-async function send(title: string, body: string, id_user:string) {
+export async function send(title: string, body: string, id_user:string) {
 
     const connection = await amqp.connect('amqp://guest:guest@localhost:5672/');
     const channel = await connection.createChannel()

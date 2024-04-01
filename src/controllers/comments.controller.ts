@@ -10,6 +10,7 @@ const commentController:any = {}
 
 import {MongoServerError} from 'mongodb'
 import { CommentDocument } from "../models/types"
+import { send } from '../sender'
 // Get endpoints
 
 export async function getAllCommentsHandler(req : Request,res:Response):Promise<any>  {
@@ -88,6 +89,7 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
     try{
         const parentId=req.params.parentId
         const comment=await findCommentById({"_id":parentId}) //Cast 
+        
         if(!comment){
             res.status(400).send({message:`The idparent doesnt exist in database`})  
         }else{
@@ -95,6 +97,11 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
                 const body=req.body
                 body.parentId=parentId
                 const commentCreated= await postComment(body)
+                
+                send("Reply", "Someone replied to your comment", parentId).catch((err) => {
+                    console.error("Error:", err);
+                    process.exit(1);
+                });
                 res.send(commentCreated)
             }else{
                 throw new Error("You cant reply to a reply")
@@ -111,6 +118,11 @@ export async function replyCommentHandler(req:Request,res:Response):Promise<any>
 export async function giveLikeHandler(req:Request,res:Response):Promise<any>  {
     try{
         reactCommentAuxFunction(req,res,'likes')
+        const {_id}=req.params
+        send("Liked", "Someone liked your comment", _id).catch((err) => {
+            console.error("Error:", err);
+            process.exit(1);
+        });
     }catch(error){
         res.status(400).send(error)
     }
@@ -133,6 +145,7 @@ export async function reactCommentAuxFunction(req:Request,res:Response,reaction:
         const opositeReaction=getOppositeReaction(reaction)
         commentUpdated=await updateDB({_id}, {$addToSet:{[reaction]:userIdLike},$pull:{[opositeReaction]:userIdLike}}) // react
     }
+
     res.send(commentUpdated)
     
 }
