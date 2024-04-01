@@ -34,6 +34,10 @@ export async function getCommentByCommentIdHandler(req : Request,res:Response):P
     try{
         const {_id}=req.params
         const comment= await findCommentById({_id})
+        if(!comment){
+            throw new Error("The comment doesnt exist");
+        }
+
         res.send(comment)
     }catch(error:any){
         res.status(400).send(error.message ? {message:error.message}: error)
