@@ -11,7 +11,7 @@ interface Message {
 
 export async function send(title: string, body: string, id_user:string) {
 
-    const connection = await amqp.connect('amqp://guest:guest@localhost:5672/');
+    const connection = await amqp.connect('amqp://guest:guest@my-rabbit:5672/');
     const channel = await connection.createChannel()
     await channel.assertQueue(queueName, { durable: false });
 
