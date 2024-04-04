@@ -16,7 +16,12 @@ var commentSchema=new Schema({
             validator:validateIdParent,
             message:"The parent comment does not exist, please try again"
         }, default: null
-    }, 
+    },
+    rate:{
+        type:Number,
+        default:null
+
+    },
     itemMusicId:{
         type:String,
         required: true},     //Album/Artist/Track Id that is being reviewed
