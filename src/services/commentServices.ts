@@ -14,8 +14,6 @@ export async function findCommentById(
     return CommentModel.findById(query,{},options).exec()
 }
 
-
-
 export async function postComment (    input: CommentInput){
     //input.parentId=""; //
     return CommentModel.create(input)
