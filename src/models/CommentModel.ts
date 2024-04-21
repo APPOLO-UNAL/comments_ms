@@ -22,6 +22,10 @@ var commentSchema=new Schema({
         default:null
 
     },
+    itemMusicType:{
+        type:String,
+        required:true
+    },
     itemMusicId:{
         type:String,
         required: true},     //Album/Artist/Track Id that is being reviewed
