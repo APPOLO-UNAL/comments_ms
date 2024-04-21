@@ -19,15 +19,15 @@ import  {
   getCommentDislikes,
   giveLikeHandler,
   giveDislikeHandler,
-  deleteCommentByUserHandler
-
+  deleteCommentByUserHandler,
+  getPrincipalCommentsHandler
 } from '../controllers/comments.controller'
 
 // Endpoint routes
 
 // Get endpoints
-
-router.get('/comments/', getAllCommentsHandler) //Get all coments
+router.get('/comments/', getPrincipalCommentsHandler)
+router.get('/commentsAndReplies/', getAllCommentsHandler) //Get all coments
 
 router.get('/item/:itemMusicId/comments/',getCommentsByItemIdHandler) //By ItemMusicID
 
