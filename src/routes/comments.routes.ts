@@ -7,6 +7,7 @@ const router = express.Router()
 import  {
   getAllCommentsHandler,
   getCommentsByItemIdHandler,
+  getAverageByItemIdHandler,
   postCommentHandler,
   replyCommentHandler,
   deleteCommentHandler,
@@ -38,6 +39,8 @@ router.get('/comments/:_id/replies/',getReplies)
 
 router.get('/comments/:_id/likes/', getCommentLikes)
 router.get('/comments/:_id/dislikes/',getCommentDislikes)
+
+router.get('/av/:itemMusicId/',getAverageByItemIdHandler)
 
 // Create  comment 
 router.post('/comments/', postCommentHandler)

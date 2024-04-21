@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { Request, Response, raw } from "express"
 import {
     deleteComment,
     updateDB,
@@ -7,7 +7,6 @@ import {
     postComment,
 } from '../services/commentServices'
 const commentController:any = {}
-
 import {MongoServerError} from 'mongodb'
 import { CommentDocument } from "../models/types"
 import { send } from '../sender'
@@ -47,6 +46,24 @@ export async function getCommentByCommentIdHandler(req : Request,res:Response):P
         res.status(400).send(error.message ? {message:error.message}: error)
     }
 }
+
+export async function getAverageByItemIdHandler(req: Request, res: Response): Promise<any> {
+    try {
+        const { itemMusicId } = req.params;
+        const comments =await findCommentsBy({itemMusicId})
+        const promedioString = comments.length
+        //Calcular el promedio
+        let suma = 0
+        for (var comment of comments){
+            suma = suma+Number(comment.rate)
+        }
+        res.json(suma/promedioString);
+    } catch (error:any) {
+        res.status(400).send(error.message ? {message:error.message}: error)
+    }
+}
+
+
 export async function getReplies(req : Request,res:Response):Promise<any> {
     try{
         const {_id}=req.params
@@ -164,7 +181,8 @@ export async function editCommentHandler(req:Request,res:Response):Promise<any> 
     try{
         const {_id}=req.params
         const {content}=req.body
-        const comment= await updateDB({_id},{content})
+        const {rate}=req.body
+        const comment= await updateDB({_id},{content,rate})
         res.send(comment)
     }catch(error){
         res.status(400).send(error)

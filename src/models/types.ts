@@ -2,6 +2,7 @@ export interface CommentInput{
 
     userId:String,
     content:String,
+    rate: Number,
     parentId:String,
     itemMusicId:String,
     likes:Array<String>,
