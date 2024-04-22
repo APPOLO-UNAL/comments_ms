@@ -18,7 +18,7 @@ export async function getAllCommentsHandler(req : Request,res:Response):Promise<
     res.send(comments)
 }
 export async function  getPrincipalCommentsHandler(req : Request,res:Response):Promise<any>  {
-    const comments=await findCommentsBy({parentId: { $ne: null }})
+    const comments=await findCommentsBy({parentId: null })
     res.send(comments)
 }
 
