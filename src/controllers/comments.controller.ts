@@ -25,13 +25,13 @@ export async function  getPrincipalCommentsHandler(req : Request,res:Response):P
 export async function getCommentsByItemIdHandler(req : Request,res:Response):Promise<any> {
     
     const {itemMusicId} =req.params;
-    const comments =await findCommentsBy({itemMusicId})
+    const comments =await findCommentsBy({itemMusicId,parentId:null})
     res.send(comments)
 }
 export async function getCommentsByUserIdHandler(req : Request,res:Response):Promise<any> {
     
     const {userId} =req.params;
-    const comments =await findCommentsBy({userId})
+    const comments =await findCommentsBy({userId,parentId:null})
     res.send(comments)
 }
 export async function getCommentByCommentIdHandler(req : Request,res:Response):Promise<any> {
@@ -68,6 +68,16 @@ export async function getAverageByItemIdHandler(req: Request, res: Response): Pr
 }
 
 
+export async function getFollowedComments(req : Request,res:Response):Promise<any> {
+    try{
+        const users = req.query.userId;
+        console.log(users)
+        const replies= await findCommentsBy({userId:{$in:users},parentId:null})
+        res.send(replies)
+    }catch(error){
+        res.status(400).send(error)
+    }
+}
 export async function getReplies(req : Request,res:Response):Promise<any> {
     try{
         const {_id}=req.params

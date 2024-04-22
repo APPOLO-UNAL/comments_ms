@@ -20,7 +20,8 @@ import  {
   giveLikeHandler,
   giveDislikeHandler,
   deleteCommentByUserHandler,
-  getPrincipalCommentsHandler
+  getPrincipalCommentsHandler,
+  getFollowedComments
 } from '../controllers/comments.controller'
 
 // Endpoint routes
@@ -28,7 +29,7 @@ import  {
 // Get endpoints
 router.get('/comments/', getPrincipalCommentsHandler)
 router.get('/commentsAndReplies/', getAllCommentsHandler) //Get all coments
-
+router.get('/comments/followed/',getFollowedComments)
 router.get('/item/:itemMusicId/comments/',getCommentsByItemIdHandler) //By ItemMusicID
 
 router.get('/user/:userId/comments/',getCommentsByUserIdHandler) //By  UserId
@@ -39,8 +40,8 @@ router.get('/comments/:_id/replies/',getReplies)
 
 router.get('/comments/:_id/likes/', getCommentLikes)
 router.get('/comments/:_id/dislikes/',getCommentDislikes)
-
 router.get('/av/:itemMusicId/',getAverageByItemIdHandler)
+//
 
 // Create  comment 
 router.post('/comments/', postCommentHandler)
