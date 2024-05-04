@@ -71,7 +71,6 @@ export async function getAverageByItemIdHandler(req: Request, res: Response): Pr
 export async function getFollowedComments(req : Request,res:Response):Promise<any> {
     try{
         const users = req.query.userId;
-        console.log(users)
         const replies= await findCommentsBy({userId:{$in:users},parentId:null})
         res.send(replies)
     }catch(error){

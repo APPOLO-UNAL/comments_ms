@@ -29,7 +29,7 @@ import  {
 // Get endpoints
 router.get('/comments/', getPrincipalCommentsHandler)
 router.get('/commentsAndReplies/', getAllCommentsHandler) //Get all coments
-router.get('/comments/followed/',getFollowedComments)
+router.get('/comments/followed/',getFollowedComments) //comments/followed/?userId=123&userId=456&userId=a620f5871fb24bdf9d5b179f3c05c1ac
 router.get('/item/:itemMusicId/comments/',getCommentsByItemIdHandler) //By ItemMusicID
 
 router.get('/user/:userId/comments/',getCommentsByUserIdHandler) //By  UserId
