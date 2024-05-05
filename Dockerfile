@@ -14,10 +14,11 @@ FROM base as production
 
 ENV NODE_PATH=./build
 
-EXPOSE 8082
 
 RUN npm run build
 
 
 
 CMD ["npm","start"]
+
+EXPOSE 8082
