@@ -5,13 +5,13 @@ export async function findCommentsBy(
     query: FilterQuery<CommentDocument>,
     options: QueryOptions={lean:true} //Return as a JSON
 ) {
-    return CommentModel.find(query,{},options).exec()
+    return CommentModel.find(query,{},options).sort([['createdAt', -1]]).exec()
 }
 export async function findCommentById(
     query: FilterQuery<CommentDocument>,
     options: QueryOptions={lean:true} //Return as a JSON
 ) {
-    return CommentModel.findById(query,{},options).exec()
+    return CommentModel.findById(query,{},options).sort([['createdAt', -1]]).exec()
 }
 
 export async function postComment (    input: CommentInput){
